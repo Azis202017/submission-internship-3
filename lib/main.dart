@@ -115,15 +115,11 @@ class _MyHomePageState extends State<MyHomePage> {
     const platfromChannelSpesifics =
         NotificationDetails(android: androidPlatfromChannelSpesifics);
     flutterLocalNotificationsPlugin!.zonedSchedule(
-      // 0,
-      // 'Notification Added Successfull',
-      // 'You will be get message from ur family or ur friends',
-      // platfromChannelSpesifics,
-      // payload: 'Notification Added Successfull',
+     
       0,
       'Notification added Successfull',
       'You will be get message from ur family or ur frineds',
-      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
+      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 10)),
       platfromChannelSpesifics,
       androidAllowWhileIdle: true,
       uiLocalNotificationDateInterpretation:
@@ -137,7 +133,22 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (_) {
         return AlertDialog(
           title: const Text("Notification Added Successfull"),
-          content: Text("$payload"),
+          content: SizedBox(
+            height : 200,
+            child: Column(
+              children: [
+                SizedBox(
+                  width: 150,
+                  height: 150,
+                  child: Lottie.asset(
+                    'assets/json/14584-well-done.json',
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Text('Success to active notification!'),
+              ],
+            ),
+          ),
         );
       },
     );
