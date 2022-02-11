@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await _configureLocalTimeZone();
   runApp(const MyApp());
 }
 
@@ -101,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future _showNotification() async {
     const androidPlatfromChannelSpesifics = AndroidNotificationDetails(
       'notification_channel_id',
-      'Channel Name',
+      'notification_added',
       sound: RawResourceAndroidNotificationSound('slow_spring_board'),
       playSound: true,
       importance: Importance.max,
@@ -109,12 +114,20 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     const platfromChannelSpesifics =
         NotificationDetails(android: androidPlatfromChannelSpesifics);
-    flutterLocalNotificationsPlugin!.show(
+    flutterLocalNotificationsPlugin!.zonedSchedule(
+      // 0,
+      // 'Notification Added Successfull',
+      // 'You will be get message from ur family or ur friends',
+      // platfromChannelSpesifics,
+      // payload: 'Notification Added Successfull',
       0,
-      'Notification Added Successfull',
-      'You will be get message from ur family or ur friends',
+      'Notification added Successfull',
+      'You will be get message from ur family or ur frineds',
+      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
       platfromChannelSpesifics,
-      payload: 'Notification Added Successfull',
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
     );
   }
 
@@ -129,4 +142,10 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
   }
+}
+
+Future<void> _configureLocalTimeZone() async {
+  tz.initializeTimeZones();
+  final String? timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+  tz.setLocalLocation(tz.getLocation(timeZoneName!));
 }
