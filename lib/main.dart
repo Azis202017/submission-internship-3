@@ -5,6 +5,8 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 
+import 'trigger_notification_page.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _configureLocalTimeZone();
@@ -115,7 +117,6 @@ class _MyHomePageState extends State<MyHomePage> {
     const platfromChannelSpesifics =
         NotificationDetails(android: androidPlatfromChannelSpesifics);
     flutterLocalNotificationsPlugin!.zonedSchedule(
-     
       0,
       'Notification added Successfull',
       'You will be get message from ur family or ur frineds',
@@ -128,30 +129,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> onSelectNotification(String? payload) async {
-    showDialog(
-      context: context,
-      builder: (_) {
-        return AlertDialog(
-          title: const Text("Notification Added Successfull"),
-          content: SizedBox(
-            height : 200,
-            child: Column(
-              children: [
-                SizedBox(
-                  width: 150,
-                  height: 150,
-                  child: Lottie.asset(
-                    'assets/json/14584-well-done.json',
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const Text('Success to active notification!'),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => TriggerNotificationPage()));
   }
 }
 
